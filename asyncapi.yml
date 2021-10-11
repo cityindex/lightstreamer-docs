@@ -1,0 +1,912 @@
+asyncapi: "2.0.0"
+defaultContentType: "application/text"
+info:
+  title: "Lightstreamer Internal API"
+  version: "1.5.5"
+  description: "The Internal Lightstreamers"
+servers:
+  ppe:
+    url: "internal-push.svc.ppe.cityindex.co.uk:{port}/lightsteamer"
+    protocol: "wss"
+    variables:
+      port:
+        enum:
+        - "80"
+        - "443"
+        default: "443"
+channels:
+  create_session:
+    publish:
+      summary: "Creates a new Session"
+    bindings:
+      wss:
+        query:
+          properties:
+            password:
+              type: "string"
+              description: "password needed for meta-data adapter"
+            session:
+              type: "string"
+              description: "current Lightstreamer session"
+            adapter_set:
+              type: "string"
+              enum:
+              - "GCHUB"
+              - "INTERNAL"
+            user:
+              type: "array"
+              description: "user needed for meta-data adapter"
+            client_id:
+              type: "string"
+              description: "platform client Id"
+  bind_session:
+    publish:
+      summary: "Rebinds the session to the current connection"
+      bindings:
+        http:
+          type: "request"
+          method: "POST"
+          query:
+            properties:
+              session:
+                type: "string"
+                description: "The Lightstreamer session to bind"
+    bindings:
+      wss:
+        query:
+          properties:
+            session:
+              type: "string"
+              description: "The Lightstreamer session to bind"
+  control:
+    publish:
+      summary: "Controls the bound sessions subscription"
+      bindings:
+        http:
+          type: "request"
+          method: "POST"
+          query:
+            properties:
+              mode:
+                type: "string"
+                enum:
+                - "MERGE"
+                - "RAW"
+              schema:
+                type: "array"
+                description: "array of the fields from schema you're interested in"
+              subId:
+                type: "string"
+                description: "unique subscription id"
+              session:
+                type: "string"
+                description: "The Lightstreamer session to control"
+              reqId:
+                type: "string"
+                description: "unique request id"
+              group:
+                type: "string"
+                description: "not used but default this"
+    bindings:
+      wss:
+        query:
+          properties:
+            mode:
+              type: "string"
+              enum:
+              - "MERGE"
+              - "RAW"
+            schema:
+              type: "array"
+              description: "array of the fields from schema you're interested in"
+            subId:
+              type: "string"
+              description: "unique subscription id"
+            session:
+              type: "string"
+              description: "The Lightstreamer session to control"
+            reqId:
+              type: "string"
+              description: "unique request id"
+            group:
+              type: "string"
+              description: "not used but default this"
+  GCHUB/RESOLVEDINSTRUCTIONS/{resolvedInstructionData}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.RESOLVEDINSTRUCTIONS"
+    parameters:
+      resolvedInstructionData:
+        description: "Item name for subscription is the field: resolvedInstructionData"
+        schema:
+          type: "string"
+  GCHUB/GRIDMETRICSCOLLECTION/{gridMetricsCollection}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.GRIDMETRICSCOLLECTION"
+    parameters:
+      gridMetricsCollection:
+        description: "Item name for subscription is the field: gridMetricsCollection"
+        schema:
+          type: "string"
+  GCHUB/TIB_CLIENTACCOUNTMARGIN/{client_account_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.TIB_CLIENTACCOUNTMARGIN"
+    parameters:
+      client_account_id:
+        description: "Item name for subscription is the field: client_account_id"
+        schema:
+          type: "string"
+  GCHUB/TIB_TRADEMARGIN/{trading_account_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.TIB_TRADEMARGIN"
+    parameters:
+      trading_account_id:
+        description: "Item name for subscription is the field: trading_account_id"
+        schema:
+          type: "string"
+  GCHUB/MRG_CLIENTACCOUNTMARGIN/{client_account_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.MRG_CLIENTACCOUNTMARGIN"
+    parameters:
+      client_account_id:
+        description: "Item name for subscription is the field: client_account_id"
+        schema:
+          type: "string"
+  GCHUB/MRG_TRADEMARGIN/{trading_account_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.MRG_TRADEMARGIN"
+    parameters:
+      trading_account_id:
+        description: "Item name for subscription is the field: trading_account_id"
+        schema:
+          type: "string"
+  GCHUB/ENRICHEDTRADES/{client_account_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.ENRICHEDTRADES"
+    parameters:
+      client_account_id:
+        description: "Item name for subscription is the field: client_account_id"
+        schema:
+          type: "string"
+  GCHUB/ENRICHEDORDERS/{client_account_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.ENRICHEDORDERS"
+    parameters:
+      client_account_id:
+        description: "Item name for subscription is the field: client_account_id"
+        schema:
+          type: "string"
+  GCHUB/ENRICHEDPOSITIONS/{client_account_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.ENRICHEDPOSITIONS"
+    parameters:
+      client_account_id:
+        description: "Item name for subscription is the field: client_account_id"
+        schema:
+          type: "string"
+  GCHUB/PAYMENTTRANSACTIONS/{transaction_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.PAYMENTTRANSACTIONS"
+    parameters:
+      transaction_id:
+        description: "Item name for subscription is the field: transaction_id"
+        schema:
+          type: "string"
+  GCHUB/WITHDRAWALREQUESTSTATE/{withdrawal_request_id}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/GCHUB.WITHDRAWALREQUESTSTATE"
+    parameters:
+      withdrawal_request_id:
+        description: "Item name for subscription is the field: withdrawal_request_id"
+        schema:
+          type: "string"
+  INTERNAL/GC_PRICES/{marketid}:
+    subscribe:
+      message:
+        $ref: "#/components/messages/INTERNAL.GC_PRICES"
+    parameters:
+      marketid:
+        description: "Item name for subscription is the field: marketid"
+        schema:
+          type: "string"
+components:
+  schemas:
+    GCHUB.ENRICHEDTRADES:
+      properties:
+        fill_position_report.position_id:
+          type: "string"
+        underlying_id:
+          type: "string"
+        fill_position_report.fill_position_action_type_id:
+          type: "string"
+        position_report.currency_id:
+          type: "string"
+        client_margin_multiplier:
+          type: "string"
+        risk_book_description:
+          type: "string"
+        position_report.open_price:
+          type: "string"
+        position_report.reference:
+          type: "string"
+        user_name:
+          type: "string"
+        position_report.market_id:
+          type: "string"
+        account_group_base_currency_name:
+          type: "string"
+        client_type:
+          type: "string"
+        trading_account_code:
+          type: "string"
+        position_report.original_quantity:
+          type: "string"
+        position_report.previous_remaining_quantity:
+          type: "string"
+        profit_and_loss_value:
+          type: "string"
+        venue_type:
+          type: "string"
+        position_report.sub_trading_account_id:
+          type: "string"
+        position_report.client_account_id:
+          type: "string"
+        placed_on_channel_id:
+          type: "string"
+        position_report.remaining_quantity:
+          type: "string"
+        trade_date_time_utc:
+          type: "string"
+        fill_id:
+          type: "string"
+        position_report.auto_rollover:
+          type: "string"
+        position_report.close_price:
+          type: "string"
+        position_report.child_orders[0]:
+          type: "string"
+        client_account_id:
+          type: "string"
+        is_close_by:
+          type: "string"
+        position_report.previous_position_status_id:
+          type: "string"
+        trading_account_name:
+          type: "string"
+        placed_on_channel_name:
+          type: "string"
+        position_report.risk_book_id:
+          type: "string"
+        position_report.trading_account_id:
+          type: "string"
+        market_base_currency_id:
+          type: "string"
+        position_report.open_date_time_utc:
+          type: "string"
+        market_id:
+          type: "string"
+        market_name:
+          type: "string"
+        position_report.position_status_id:
+          type: "string"
+        account_group_base_currency_id:
+          type: "string"
+        position_report.close_date_time_utc:
+          type: "string"
+        position_report.position_id:
+          type: "string"
+        fill_position_report.quantity:
+          type: "string"
+        position_currency_name:
+          type: "string"
+        position_report.position_direction_id:
+          type: "string"
+        position_report.version:
+          type: "string"
+        position_report.margin_classification_id:
+          type: "string"
+        trading_account_id:
+          type: "string"
+        trade_action_type:
+          type: "string"
+    GCHUB.GRIDMETRICSCOLLECTION:
+      properties: {}
+    GCHUB.ENRICHEDPOSITIONS:
+      properties:
+        underlying_id:
+          type: "string"
+        distance_away_value:
+          type: "string"
+        position_report.currency_id:
+          type: "string"
+        client_margin_multiplier:
+          type: "string"
+        position_report.open_price:
+          type: "string"
+        position_report.reference:
+          type: "string"
+        user_name:
+          type: "string"
+        position_report.market_id:
+          type: "string"
+        stop_loss_value:
+          type: "string"
+        account_group_base_currency_name:
+          type: "string"
+        trailing_stop_orders.1093633051766287226:
+          type: "string"
+        client_type:
+          type: "string"
+        position_report.original_quantity:
+          type: "string"
+        limit_orders.-6045197784843165702:
+          type: "string"
+        position_report.previous_remaining_quantity:
+          type: "string"
+        venue_type:
+          type: "string"
+        position_report.sub_trading_account_id:
+          type: "string"
+        position_report.client_account_id:
+          type: "string"
+        position_report.remaining_quantity:
+          type: "string"
+        last_change_on_channel_id:
+          type: "string"
+        limit_value:
+          type: "string"
+        trade_date_time_utc:
+          type: "string"
+        market_type:
+          type: "string"
+        opened_on_channel_id:
+          type: "string"
+        position_report.close_price:
+          type: "string"
+        position_report.child_orders[0]:
+          type: "string"
+        client_account_id:
+          type: "string"
+        position_report.previous_position_status_id:
+          type: "string"
+        position_report.risk_book_id:
+          type: "string"
+        position_report.trading_account_id:
+          type: "string"
+        opened_on_channel_name:
+          type: "string"
+        market_base_currency_id:
+          type: "string"
+        position_report.open_date_time_utc:
+          type: "string"
+        market_id:
+          type: "string"
+        last_change_on_channel_name:
+          type: "string"
+        market_name:
+          type: "string"
+        account_group_base_currency_id:
+          type: "string"
+        position_report.close_date_time_utc:
+          type: "string"
+        position_report.position_id:
+          type: "string"
+        stop_loss_orders.2888952961747752357:
+          type: "string"
+        position_currency_name:
+          type: "string"
+        position_report.version:
+          type: "string"
+        position_report.margin_classification_id:
+          type: "string"
+        trading_account_id:
+          type: "string"
+    GCHUB.PAYMENTTRANSACTIONS:
+      properties:
+        state.started_by:
+          type: "string"
+        state.fee.amount.units:
+          type: "string"
+        state.transaction_id:
+          type: "string"
+        state.last_updated_at:
+          type: "string"
+        state.transaction_amount.units:
+          type: "string"
+        crud:
+          type: "string"
+        state.reference:
+          type: "string"
+        state.transaction_amount.nanos:
+          type: "string"
+        state.payment_profile_permission_id:
+          type: "string"
+        state.transaction_amount.currency_code:
+          type: "string"
+        state.payment_profile_id:
+          type: "string"
+        state.fee.amount.nanos:
+          type: "string"
+        state.contract_id:
+          type: "string"
+        state.flow:
+          type: "string"
+        state.gateway:
+          type: "string"
+        timestamp:
+          type: "string"
+        transaction_id:
+          type: "string"
+        state.transaction_status:
+          type: "string"
+        state.last_updated_by:
+          type: "string"
+        state.presentment_amount.nanos:
+          type: "string"
+        state.transaction_type:
+          type: "string"
+        state.presentment_amount.units:
+          type: "string"
+        state.name:
+          type: "string"
+        state.payment_method:
+          type: "string"
+        state.fee.amount.currency_code:
+          type: "string"
+        state.instrument_id:
+          type: "string"
+        state.request_id:
+          type: "string"
+        state.device:
+          type: "string"
+        state.presentment_amount.currency_code:
+          type: "string"
+        state.trading_account_code:
+          type: "string"
+        state.started_at:
+          type: "string"
+    GCHUB.MRG_CLIENTACCOUNTMARGIN:
+      properties:
+        MRG_CREDIT_ALLOCATION:
+          type: "string"
+        MRG_CCY_ISO:
+          type: "string"
+        MRG_TRADING_RESOURCE:
+          type: "string"
+        MRG_CCY_ID:
+          type: "string"
+        MRG_CASH:
+          type: "string"
+        MRG_MARGIN_INDICATOR:
+          type: "string"
+        command:
+          type: "string"
+        MRG_MARGIN:
+          type: "string"
+        MRG_TOTAL_MARGIN_REQ:
+          type: "string"
+        MRG_WAIVED_MARGIN_REQ:
+          type: "string"
+        MRG_NET_EQUITY:
+          type: "string"
+        MRG_OPEN_TRADE_EQUITY:
+          type: "string"
+        MRG_TRADEABLE_FUNDS:
+          type: "string"
+        MRG_PENDING_FUNDS:
+          type: "string"
+    GCHUB.TIB_TRADEMARGIN:
+      properties:
+        TIB_MARKET_ID:
+          type: "string"
+        TIB_ORDER_ID:
+          type: "string"
+        TIB_OTE_CONV:
+          type: "string"
+        TIB_DIRECTION_ID:
+          type: "string"
+        TIB_MARGIN_REQ_CONV:
+          type: "string"
+        command:
+          type: "string"
+    GCHUB.TIB_CLIENTACCOUNTMARGIN:
+      properties:
+        TIB_PENDING_FUNDS:
+          type: "string"
+        TIB_CASH:
+          type: "string"
+        TIB_CREDIT_ALLOCATION:
+          type: "string"
+        command:
+          type: "string"
+        TIB_TOTAL_MARGIN_REQ:
+          type: "string"
+        TIB_WAIVED_MARGIN_REQ:
+          type: "string"
+        TIB_CCY_ISO:
+          type: "string"
+        TIB_NET_EQUITY:
+          type: "string"
+        TIB_MARGIN:
+          type: "string"
+        TIB_CCY_ID:
+          type: "string"
+        TIB_OPEN_TRADE_EQUITY:
+          type: "string"
+        TIB_TRADING_RESOURCE:
+          type: "string"
+        TIB_TRADEABLE_FUNDS:
+          type: "string"
+        TIB_MARGIN_INDICATOR:
+          type: "string"
+    GCHUB.ENRICHEDORDERS:
+      properties:
+        order_report.auto_rollover:
+          type: "string"
+        underlying_id:
+          type: "string"
+        order_report.parent_order_id:
+          type: "string"
+        order_report.trading_account_id:
+          type: "string"
+        order_report.level_basis_type_id:
+          type: "string"
+        order_report.oco_order_request_token:
+          type: "string"
+        created_on_channel_name:
+          type: "string"
+        created_on_channel_id:
+          type: "string"
+        order_currency_name:
+          type: "string"
+        venue_type:
+          type: "string"
+        order_report.position_method_id:
+          type: "string"
+        order_report.reason_text:
+          type: "string"
+        order_report.comments:
+          type: "string"
+        order_report.client_account_id:
+          type: "string"
+        market_id:
+          type: "string"
+        order_report.level:
+          type: "string"
+        last_change_on_channel_name:
+          type: "string"
+        market_name:
+          type: "string"
+        order_report.oco_order_id:
+          type: "string"
+        order_report.market_id:
+          type: "string"
+        created_on_date_time_utc:
+          type: "string"
+        order_report.expiry_date_time_utc_ticks:
+          type: "string"
+        order_report.expiry_type_id:
+          type: "string"
+        trading_account_id:
+          type: "string"
+        order_report.order_reason_id:
+          type: "string"
+        order_report.child_orders[0]:
+          type: "string"
+        order_report.parent_order_request_token:
+          type: "string"
+        order_report.parent_positions[0]:
+          type: "string"
+        order_report.previous_level:
+          type: "string"
+        order_report.order_direction_id:
+          type: "string"
+        order_report.version:
+          type: "string"
+        order_report.expiry_date_time_utc:
+          type: "string"
+        order_report.previous_remaining_quantity:
+          type: "string"
+        order_report.order_status_id:
+          type: "string"
+        order_report.order_sub_type_id:
+          type: "string"
+        trading_account_code:
+          type: "string"
+        order_report.guaranteed:
+          type: "string"
+        order_report.risk_book_id:
+          type: "string"
+        order_report.level_basis:
+          type: "string"
+        order_report.reference:
+          type: "string"
+        has_linked_if_done_orders:
+          type: "string"
+        last_change_on_channel_id:
+          type: "string"
+        client_account_id:
+          type: "string"
+        last_change_on_date_time_utc:
+          type: "string"
+        order_report.order_request_token:
+          type: "string"
+        trading_account_name:
+          type: "string"
+        order_report.remaining_quantity:
+          type: "string"
+        order_report.original_quantity:
+          type: "string"
+        order_report.previous_order_status_id:
+          type: "string"
+        order_report.order_id:
+          type: "string"
+        order_report.execution_policy_id:
+          type: "string"
+        order_report.currency_id:
+          type: "string"
+    INTERNAL.GC_PRICES:
+      properties:
+        PRICEENGINE:
+          type: "string"
+        HIGH:
+          type: "string"
+        MKTSTATE:
+          type: "string"
+        DELTA:
+          type: "string"
+        DIRECTION:
+          type: "string"
+        IMP_VOLT:
+          type: "string"
+        MID:
+          type: "string"
+        AUDIT_ID:
+          type: "string"
+        command:
+          type: "string"
+        TICKCOUNT:
+          type: "string"
+        NAME:
+          type: "string"
+        MKTSTATUS:
+          type: "string"
+        LASTUPDATE:
+          type: "string"
+        LOW:
+          type: "string"
+        ASK:
+          type: "string"
+        CHANGE:
+          type: "string"
+        BID:
+          type: "string"
+    GCHUB.WITHDRAWALREQUESTSTATE:
+      properties:
+        entity_version:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].transaction_amount.units:
+          type: "string"
+        contract_id:
+          type: "string"
+        withdrawal_allocations[0].amount.currency_code:
+          type: "string"
+        trading_account_code:
+          type: "string"
+        withdrawal_allocations[0].started_by:
+          type: "string"
+        amount.currency_code:
+          type: "string"
+        withdrawal_allocations[0].amount.units:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].transaction_type:
+          type: "string"
+        last_updated_by:
+          type: "string"
+        withdrawal_allocations[0].transaction_type:
+          type: "string"
+        amount.units:
+          type: "string"
+        started_by:
+          type: "string"
+        withdrawal_allocations[0].permission_id:
+          type: "string"
+        client_device:
+          type: "string"
+        withdrawal_request_status:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].withdrawal_request_id:
+          type: "string"
+        withdrawal_allocations[0].fx_rate_calculation_time:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].instrument_id:
+          type: "string"
+        withdrawal_allocations[0].profile_id:
+          type: "string"
+        withdrawal_allocations[0].started_at:
+          type: "string"
+        withdrawal_allocations[0].withdrawal_request_id:
+          type: "string"
+        withdrawal_allocations[0].withdrawal_allocation_id:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].payment_transaction_id:
+          type: "string"
+        withdrawal_allocations[0].instrument_id:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].permission_id:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].transaction_amount.currency_code:
+          type: "string"
+        amount.nanos:
+          type: "string"
+        last_updated_at:
+          type: "string"
+        withdrawal_allocations[0].amount.nanos:
+          type: "string"
+        started_at:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].profile_id:
+          type: "string"
+        withdrawal_allocations[0].transaction_templates[0].transaction_amount.nanos:
+          type: "string"
+        withdrawal_request_id:
+          type: "string"
+    GCHUB.RESOLVEDINSTRUCTIONS:
+      properties:
+        server_name:
+          type: "string"
+        request_type:
+          type: "string"
+        channel:
+          type: "string"
+        order_change_date_time_utc_ticks_value:
+          type: "string"
+        order_status_reason_id_value:
+          type: "string"
+        underlying_type_id:
+          type: "string"
+        order_status_value:
+          type: "string"
+        trading_account_code:
+          type: "string"
+        original_quantity_value:
+          type: "string"
+        underlying_name:
+          type: "string"
+        order_price_value:
+          type: "string"
+        notional_value:
+          type: "string"
+        account_manager_name_value:
+          type: "string"
+        order_type:
+          type: "string"
+        underlying_type_name:
+          type: "string"
+        report_reason_id_value:
+          type: "string"
+        quantity_value:
+          type: "string"
+        request_date_time_utc_ticks:
+          type: "string"
+        market_subtype_value:
+          type: "string"
+        execution_price_value:
+          type: "string"
+        market_id:
+          type: "string"
+        session_id:
+          type: "string"
+        is_premier_client:
+          type: "string"
+        market_name:
+          type: "string"
+        trading_account_country:
+          type: "string"
+        is_demo_account:
+          type: "string"
+        order_action_quantity_value:
+          type: "string"
+        report_status_value:
+          type: "string"
+        order_id:
+          type: "string"
+        order_action_type_value:
+          type: "string"
+        risk_process_id_value:
+          type: "string"
+        request_id:
+          type: "string"
+        currency_id:
+          type: "string"
+        trading_account_id:
+          type: "string"
+    GCHUB.MRG_TRADEMARGIN:
+      properties:
+        MRG_OTE_CONV:
+          type: "string"
+        MRG_MARGIN_REQ_CONV:
+          type: "string"
+        MRG_POSITION_ID:
+          type: "string"
+        MRG_DIRECTION_ID:
+          type: "string"
+        command:
+          type: "string"
+        MRG_MARKET_ID:
+          type: "string"
+  messages:
+    GCHUB.ENRICHEDTRADES:
+      payload:
+        $ref: "#/components/schemas/GCHUB.ENRICHEDTRADES"
+      contentType: "application/text"
+      name: "ENRICHEDTRADES"
+    GCHUB.GRIDMETRICSCOLLECTION:
+      payload:
+        $ref: "#/components/schemas/GCHUB.GRIDMETRICSCOLLECTION"
+      contentType: "application/text"
+      name: "GRIDMETRICSCOLLECTION"
+    GCHUB.ENRICHEDPOSITIONS:
+      payload:
+        $ref: "#/components/schemas/GCHUB.ENRICHEDPOSITIONS"
+      contentType: "application/text"
+      name: "ENRICHEDPOSITIONS"
+    GCHUB.PAYMENTTRANSACTIONS:
+      payload:
+        $ref: "#/components/schemas/GCHUB.PAYMENTTRANSACTIONS"
+      contentType: "application/text"
+      name: "PAYMENTTRANSACTIONS"
+    GCHUB.MRG_CLIENTACCOUNTMARGIN:
+      payload:
+        $ref: "#/components/schemas/GCHUB.MRG_CLIENTACCOUNTMARGIN"
+      contentType: "application/text"
+      name: "MRG_CLIENTACCOUNTMARGIN"
+    GCHUB.TIB_TRADEMARGIN:
+      payload:
+        $ref: "#/components/schemas/GCHUB.TIB_TRADEMARGIN"
+      contentType: "application/text"
+      name: "TIB_TRADEMARGIN"
+    GCHUB.TIB_CLIENTACCOUNTMARGIN:
+      payload:
+        $ref: "#/components/schemas/GCHUB.TIB_CLIENTACCOUNTMARGIN"
+      contentType: "application/text"
+      name: "TIB_CLIENTACCOUNTMARGIN"
+    GCHUB.ENRICHEDORDERS:
+      payload:
+        $ref: "#/components/schemas/GCHUB.ENRICHEDORDERS"
+      contentType: "application/text"
+      name: "ENRICHEDORDERS"
+    INTERNAL.GC_PRICES:
+      payload:
+        $ref: "#/components/schemas/INTERNAL.GC_PRICES"
+      contentType: "application/text"
+      name: "GC_PRICES"
+    GCHUB.WITHDRAWALREQUESTSTATE:
+      payload:
+        $ref: "#/components/schemas/GCHUB.WITHDRAWALREQUESTSTATE"
+      contentType: "application/text"
+      name: "WITHDRAWALREQUESTSTATE"
+    GCHUB.RESOLVEDINSTRUCTIONS:
+      payload:
+        $ref: "#/components/schemas/GCHUB.RESOLVEDINSTRUCTIONS"
+      contentType: "application/text"
+      name: "RESOLVEDINSTRUCTIONS"
+    GCHUB.MRG_TRADEMARGIN:
+      payload:
+        $ref: "#/components/schemas/GCHUB.MRG_TRADEMARGIN"
+      contentType: "application/text"
+      name: "MRG_TRADEMARGIN"
+externalDocs:
+  description: "The Lightstreamer Support and Documentation wiki"
+  url: "https://wiki.gaincapital.com/display/EM/Lightstreamer+Support"
+
